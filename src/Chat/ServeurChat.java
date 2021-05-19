@@ -9,12 +9,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ServeurChat extends Thread {
 	private boolean isActive = true;
-	protected int nombreClients = 0;
-	protected List<Conversation> clients = new ArrayList<Conversation>();
+	protected static int nombreClients;
+	public static List<Conversation> clients = new ArrayList<Conversation>();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -43,7 +44,7 @@ public class ServeurChat extends Thread {
 	
 	class Conversation extends Thread {
 		protected Socket socketClient;
-		protected int numeroClient;
+		public int numeroClient;
 		
 		public Conversation(Socket socketClient, int numeroClient) {
 			// TODO Auto-generated method stub
@@ -54,7 +55,7 @@ public class ServeurChat extends Thread {
 		public void broadcastMessage(String message, Socket socket, int numClient) {
 			try {
 				for(Conversation client : clients) {
-					if (client .socketClient != socket) {
+					if (client.socketClient != socket) {
 						if(client.numeroClient == numClient || numClient == -1) {
 							OutputStream os = client.socketClient.getOutputStream();
 							PrintWriter pw = new PrintWriter(os,true);
@@ -66,6 +67,30 @@ public class ServeurChat extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		public void connectedUser(int numClient, Socket socket) {
+			// TODO Auto-generated method stub
+			if(nombreClients != 1) {
+				String usrConnect = "Connected Users : [ ";
+				for(Conversation client : clients) {
+					if (client.numeroClient != numClient) {
+						usrConnect = usrConnect + client.numeroClient + " ,";
+					}
+				}
+				
+				usrConnect = usrConnect.replaceFirst(".$"," ]");
+			
+				try {
+					OutputStream os = socket.getOutputStream();
+					PrintWriter pw = new PrintWriter(os,true);
+					pw.println(usrConnect);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 		}
 		
 		@Override
@@ -80,11 +105,15 @@ public class ServeurChat extends Thread {
 				PrintWriter pw = new PrintWriter(os,true);
 				String IP = socketClient.getRemoteSocketAddress().toString();
 				System.out.println("Connexion du client numero " + numeroClient + " IP " + IP);
+				
 				pw.println("Bienvenue vous etes le client numero " + numeroClient);
+				connectedUser(numeroClient, socketClient);
+				broadcastMessage("New user Connected, son numero est : " + numeroClient, socketClient, -1);
+				
 				while(true) {
 					String req = br.readLine();
-					if(req.contains("=>")) {
-						String[] requestParams = req.split("=>");
+					if(req.contains(":")) {
+						String[] requestParams = req.split(":");
 						if(requestParams.length == 2);
 						String message = requestParams[1];
 						int numClient = Integer.parseInt(requestParams[0]);
