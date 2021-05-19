@@ -1,5 +1,6 @@
 package Chat;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+
+import javax.swing.JFileChooser;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -30,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -66,7 +71,7 @@ public class ClientChat extends Application{
 		HBox hBox = new HBox();
 		hBox.setSpacing(10);
 		hBox.setPadding(new Insets(10));
-		hBox.setBackground(new Background(new BackgroundFill(Color.ROSYBROWN,null,null)));
+		hBox.setBackground(new Background(new BackgroundFill(Color.rgb(228,228,252),null,null)));
 		hBox.getChildren().addAll(labelHost,textFieldHost,labelPort,textFieldPort, labelNom, textFieldNom,buttonConnecter);
 		borderPane.setTop(hBox);
 		
@@ -93,18 +98,19 @@ public class ClientChat extends Application{
 		TextField textFieldMsg = new TextField();
 		textFieldMsg.setPrefSize(600, 40);
 		Button buttonEnvoyer = new Button("Envoyer");
+		Button buttonJoindre = new Button("Joindre");
 		
 		HBox hBox2 = new HBox();
 		hBox2.setSpacing(10);
 		hBox2.setPadding(new Insets(10));
-		hBox2.getChildren().addAll(labelMsg,textFieldMsg,buttonEnvoyer);
+		hBox2.getChildren().addAll(labelMsg,textFieldMsg,buttonEnvoyer,buttonJoindre);
 		
 		borderPane3.setCenter(vBox);
 		borderPane3.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE,null,null)));
 		
 		borderPane3.setBottom(hBox2);
 		
-		Scene scene = new Scene(borderPane,1000,600);
+		Scene scene = new Scene(borderPane,1100,600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
@@ -175,6 +181,14 @@ public class ClientChat extends Application{
 			else {
 				pw.println("[ " + nom + " ] " + msg);
 			}	
+		});
+		
+		buttonJoindre.setOnAction((evt)->{
+			FileChooser fc = new FileChooser();
+			
+			fc.setTitle("Open Resource File");
+			fc.showOpenDialog(primaryStage);
+			
 		});
 	}
 
