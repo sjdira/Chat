@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.JFileChooser;
 
@@ -118,6 +120,8 @@ public class ClientChat extends Application{
 			if(!textFieldNom.getText().isEmpty() && textFieldPort.getText().equals("1234") && textFieldHost.getText().equals("localhost")) {
 				borderPane.setCenter(borderPane3);
 				
+				primaryStage.setTitle("Client Chat " + textFieldNom.getText());
+				
 				Label Nom = new Label("Nom : " + textFieldNom.getText());
 				
 				Nom.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
@@ -176,10 +180,10 @@ public class ClientChat extends Application{
 				if(requestParams.length == 2);
 				String message = requestParams[1];
 				int numClient = Integer.parseInt(requestParams[0]);
-				pw.println(numClient+":"+"[ " + nom + " ] " + message);
+				pw.println(numClient+":"+nom + " ] " + message);
 			}
 			else {
-				pw.println("[ " + nom + " ] " + msg);
+				pw.println(nom + " ] " + msg);
 			}	
 		});
 		

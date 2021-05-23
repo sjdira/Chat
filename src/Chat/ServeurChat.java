@@ -8,7 +8,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -117,10 +119,10 @@ public class ServeurChat extends Thread {
 						if(requestParams.length == 2);
 						String message = requestParams[1];
 						int numClient = Integer.parseInt(requestParams[0]);
-						broadcastMessage(message, socketClient, numClient);
+						broadcastMessage("[ " +  DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date()) + " " +message, socketClient, numClient);
 					}
 					else {
-						broadcastMessage(req, socketClient, -1);
+						broadcastMessage("[ " +  DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date()) + " " + req, socketClient, -1);
 					}
 				}
 			} catch (IOException e) {
