@@ -11,13 +11,12 @@ import java.net.Socket;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class ServeurChat extends Thread {
 	private boolean isActive = true;
-	protected static int nombreClients;
-	public static List<Conversation> clients = new ArrayList<Conversation>();
+	private int nombreClients;
+	private List<Conversation> clients = new ArrayList<Conversation>();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -46,7 +45,7 @@ public class ServeurChat extends Thread {
 	
 	class Conversation extends Thread {
 		protected Socket socketClient;
-		public int numeroClient;
+		private int numeroClient;
 		
 		public Conversation(Socket socketClient, int numeroClient) {
 			// TODO Auto-generated method stub

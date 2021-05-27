@@ -1,6 +1,5 @@
 package Chat;
 
-import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,11 +8,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
-import java.text.DateFormat;
-import java.util.Date;
-
-import javax.swing.JFileChooser;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -36,7 +30,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -100,12 +93,11 @@ public class ClientChat extends Application{
 		TextField textFieldMsg = new TextField();
 		textFieldMsg.setPrefSize(600, 40);
 		Button buttonEnvoyer = new Button("Envoyer");
-		Button buttonJoindre = new Button("Joindre");
 		
 		HBox hBox2 = new HBox();
 		hBox2.setSpacing(10);
 		hBox2.setPadding(new Insets(10));
-		hBox2.getChildren().addAll(labelMsg,textFieldMsg,buttonEnvoyer,buttonJoindre);
+		hBox2.getChildren().addAll(labelMsg,textFieldMsg,buttonEnvoyer);
 		
 		borderPane3.setCenter(vBox);
 		borderPane3.setBackground(new Background(new BackgroundFill(Color.ANTIQUEWHITE,null,null)));
@@ -187,13 +179,6 @@ public class ClientChat extends Application{
 			}	
 		});
 		
-		buttonJoindre.setOnAction((evt)->{
-			FileChooser fc = new FileChooser();
-			
-			fc.setTitle("Open Resource File");
-			fc.showOpenDialog(primaryStage);
-			
-		});
 	}
 
 }
